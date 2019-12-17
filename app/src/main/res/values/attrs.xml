@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyTextView">
+        <attr name="content_maxLines" format="integer" />
+        <attr name="content_textString" format="string" />
+        <attr name="content_textColor" format="color" />
+        <attr name="count_text" format="integer" />
+        <attr name="text_appearance" format="integer" />
+    </declare-styleable>
+</resources>

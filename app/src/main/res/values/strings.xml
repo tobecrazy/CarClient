@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CarClient</string>
+    <string name="forward">前进</string>
+    <string name="backward">后退</string>
+    <string name="left">向左</string>
+    <string name="right">向右</string>
+    <string name="stop">停止</string>
+    <string name="menu_title">设置</string>
+    <string name="menu_connect">联网</string>
+</resources>
