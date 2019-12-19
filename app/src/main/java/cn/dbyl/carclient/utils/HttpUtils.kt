@@ -2,6 +2,7 @@ package cn.dbyl.carclient.utils
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import cn.dbyl.model.DataModel
 
 import java.io.IOException
@@ -24,12 +25,12 @@ class HttpUtils
  */
 private constructor() {
     internal val TAG = HttpUtils::class.java.simpleName
-
+    private val resource = MutableLiveData<DataModel>()
     private val client = OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .build()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build()
 
     /**
      * @param url
@@ -38,7 +39,11 @@ private constructor() {
      * @author Young
      */
     @Throws(IOException::class)
-    fun getRequest(url: String, parameters: HashMap<String, String>, credential: String?): DataModel {
+    fun getRequest(
+        url: String,
+        parameters: HashMap<String, String>,
+        credential: String?
+    ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
         builder.add("Content-Type", "application/json;charset=gb2312")
         if (null != credential) {
@@ -56,7 +61,11 @@ private constructor() {
      * @throws IOException
      */
     @Throws(IOException::class)
-    fun deleteRequest(url: String, parameters: HashMap<String, String>, credential: String?): DataModel {
+    fun deleteRequest(
+        url: String,
+        parameters: HashMap<String, String>,
+        credential: String?
+    ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
         builder.add("Content-Type", "application/json;charset=gb2312")
         if (null != credential) {
@@ -73,7 +82,12 @@ private constructor() {
      * @return
      * @author Young
      */
-    fun postRequest(url: String, parameters: HashMap<String, String>, body: String, credential: String?): DataModel {
+    fun postRequest(
+        url: String,
+        parameters: HashMap<String, String>,
+        body: String,
+        credential: String?
+    ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
         builder.add("Content-Type", "application/json;charset=gb2312")
         if (null != credential) {
@@ -90,7 +104,12 @@ private constructor() {
      * @param credential
      * @return
      */
-    fun putRequest(url: String, parameters: HashMap<String, String>, body: String, credential: String?): DataModel {
+    fun putRequest(
+        url: String,
+        parameters: HashMap<String, String>,
+        body: String,
+        credential: String?
+    ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
         builder.add("Content-Type", "application/json;charset=gb2312")
         if (null != credential) {
@@ -108,8 +127,13 @@ private constructor() {
      * @throws IOException
      */
     @Throws(IOException::class)
-    fun getResponse(url: String, parameters: HashMap<String, String>, headers: Headers?): DataModel {
+    fun getResponse(
+        url: String,
+        parameters: HashMap<String, String>,
+        headers: Headers?
+    ): MutableLiveData<DataModel> {
         val builder = Request.Builder()
+
         val dataModel = DataModel()
         val requestUrl = getRequestUrl(url, parameters)
         Log.v(TAG, "get request url ---> $requestUrl")
@@ -131,9 +155,12 @@ private constructor() {
             dataModel.message = response.message
         } catch (e: Exception) {
             Log.e(TAG, "Http request error " + e.message)
+            dataModel.status = 400
+            dataModel.message = null
+            dataModel.result = null
         }
-
-        return dataModel
+        resource.value = dataModel
+        return resource
     }
 
     /***
@@ -144,7 +171,12 @@ private constructor() {
      * @param headers
      * @return
      */
-    fun putResponse(url: String, parameters: HashMap<String, String>, body: String, headers: Headers?): DataModel {
+    fun putResponse(
+        url: String,
+        parameters: HashMap<String, String>,
+        body: String,
+        headers: Headers?
+    ): MutableLiveData<DataModel> {
         val builder = Request.Builder()
         val dataModel = DataModel()
         val requestUrl = getRequestUrl(url, parameters)
@@ -168,10 +200,13 @@ private constructor() {
             dataModel.status = response.code
             dataModel.message = response.message
         } catch (e: Exception) {
-            Log.e(TAG, e.message)
+            Log.e(TAG, "Post error ${e.message}")
+            dataModel.result = null
+            dataModel.status = 400
+            dataModel.message = e.message
         }
-
-        return dataModel
+        resource.value = dataModel
+        return resource
     }
 
     /**
@@ -182,7 +217,11 @@ private constructor() {
      * @throws IOException
      */
     @Throws(IOException::class)
-    fun deleteResponse(url: String, parameters: HashMap<String, String>, headers: Headers?): DataModel {
+    fun deleteResponse(
+        url: String,
+        parameters: HashMap<String, String>,
+        headers: Headers?
+    ): MutableLiveData<DataModel> {
         val builder = Request.Builder()
         val dataModel = DataModel()
         val requestUrl = getRequestUrl(url, parameters)
@@ -205,9 +244,14 @@ private constructor() {
             dataModel.message = response.message
         } catch (e: Exception) {
             Log.e(TAG, "Http request error " + e.message)
-        }
+            Log.e(TAG, "Post error ${e.message}")
+            dataModel.result = null
+            dataModel.status = 400
+            dataModel.message = e.message
 
-        return dataModel
+        }
+        resource.value = dataModel
+        return resource
     }
 
     /**
@@ -217,7 +261,12 @@ private constructor() {
      * @param headers
      * @return
      */
-    fun postResponse(url: String, parameters: HashMap<String, String>, body: String, headers: Headers?): DataModel {
+    fun postResponse(
+        url: String,
+        parameters: HashMap<String, String>,
+        body: String,
+        headers: Headers?
+    ): MutableLiveData<DataModel> {
         val builder = Request.Builder()
         val dataModel = DataModel()
         val requestUrl = getRequestUrl(url, parameters)
@@ -242,9 +291,12 @@ private constructor() {
             dataModel.message = response.message
         } catch (e: Exception) {
             Log.e(TAG, "Post error ${e.message}")
+            dataModel.result = null
+            dataModel.status = 400
+            dataModel.message = e.message
         }
-
-        return dataModel
+        resource.value = dataModel
+        return resource
     }
 
     /**
@@ -261,7 +313,8 @@ private constructor() {
             builder.append("&")
         }
         for (key in parameters.keys) {
-            builder.append(Uri.encode(key, "utf-8")).append("=").append(Uri.encode(parameters[key], "utf-8")).append("&")
+            builder.append(Uri.encode(key, "utf-8")).append("=")
+                .append(Uri.encode(parameters[key], "utf-8")).append("&")
         }
         if (builder[builder.length - 1] == '&') {
             builder.deleteCharAt(builder.length - 1)
@@ -285,11 +338,9 @@ private constructor() {
             get() {
                 if (httpUtils == null) {
                     synchronized(HttpUtils::class.java) {
-
                         if (httpUtils == null) {
                             httpUtils = HttpUtils()
                         }
-
                     }
                 }
                 return httpUtils

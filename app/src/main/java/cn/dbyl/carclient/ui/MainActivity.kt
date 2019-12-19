@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.View.OnClickListener
 import android.view.WindowManager
+import androidx.databinding.DataBindingUtil
 import cn.dbyl.carclient.R
+import cn.dbyl.carclient.databinding.ActivityMainBindingImpl
 import cn.dbyl.carclient.service.CarRemoteService
 import cn.dbyl.carclient.utils.HttpUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,10 +20,11 @@ import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
     val url = "http://192.168.43.182:8972/"
+    var databinding: ActivityMainBindingImpl? = null
     val parameters: HashMap<String, String> = HashMap<String, String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        databinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val serviceIntent: Intent = Intent(this, CarRemoteService::class.java)
         serviceIntent.putExtra("Car", true)
         startService(serviceIntent)
@@ -46,10 +48,12 @@ class MainActivity : AppCompatActivity() {
                     parameters["direction"] = "Stop"
                 }
             }
-            var thread: Thread = Thread(Runnable { HttpUtils.instance?.postRequest(url, parameters, "", null) })
+            var thread: Thread =
+                Thread(Runnable { HttpUtils.instance?.postRequest(url, parameters, "", null) })
             thread.start()
 
         }
+
         forward.setOnClickListener(listener)
         backward.setOnClickListener(listener)
         left.setOnClickListener(listener)
