@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.widget.Toast
+import cn.dbyl.carclient.utils.NetWorkUtils
 
 
 /**
@@ -11,7 +12,8 @@ import android.widget.Toast
  **/
 class CarRemoteService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
-        return null
+        val binder=CarRemoterBinder()
+        return binder
     }
 
     override fun onStartCommand(
@@ -23,12 +25,14 @@ class CarRemoteService : Service() {
         if (intent?.getBooleanExtra("Car", false) == true) {
             message = "No listener"
         }
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        val isNetWorkEnable=NetWorkUtils.checkEnable(this)
+        Toast.makeText(this, "$message ===> $isNetWorkEnable", Toast.LENGTH_LONG).show()
         return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "服务已经停止", Toast.LENGTH_LONG).show()
+        val message: String = "Service is stopped"
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

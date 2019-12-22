@@ -5,60 +5,87 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.OnClickListener
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import cn.dbyl.carclient.R
-import cn.dbyl.carclient.databinding.ActivityMainBindingImpl
+import cn.dbyl.carclient.databinding.ActivityMainBinding
 import cn.dbyl.carclient.service.CarRemoteService
-import cn.dbyl.carclient.utils.HttpUtils
-import kotlinx.android.synthetic.main.activity_main.*
+import cn.dbyl.carclient.viewmodel.MainActivityViewModel
 import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    val url = "http://192.168.43.182:8972/"
-    var databinding: ActivityMainBindingImpl? = null
+    lateinit var viewModel: MainActivityViewModel
+    lateinit var databinding: ActivityMainBinding
     val parameters: HashMap<String, String> = HashMap<String, String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         databinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        initialViewModel()
         val serviceIntent: Intent = Intent(this, CarRemoteService::class.java)
         serviceIntent.putExtra("Car", true)
         startService(serviceIntent)
-
         val listener = OnClickListener {
             when (it.id) {
-                forward.id -> {
+                databinding.forward.id -> {
                     parameters["direction"] = "Forward"
                 }
-                backward.id -> {
+                databinding.backward.id -> {
                     parameters["direction"] = "Backward"
                 }
-                right.id -> {
+                databinding.right?.id -> {
                     parameters["direction"] = "Right"
                 }
-                left.id -> {
+                databinding.left.id -> {
                     parameters["direction"] = "Left"
 
                 }
-                stop.id -> {
+                databinding.stop.id -> {
                     parameters["direction"] = "Stop"
                 }
             }
-            var thread: Thread =
-                Thread(Runnable { HttpUtils.instance?.postRequest(url, parameters, "", null) })
-            thread.start()
-
+            viewModel.initialViewModel(parameters)
         }
 
-        forward.setOnClickListener(listener)
-        backward.setOnClickListener(listener)
-        left.setOnClickListener(listener)
-        right.setOnClickListener(listener)
-        stop.setOnClickListener(listener)
+        viewModel.initialViewModel(parameters)
+        databinding.forward.setOnClickListener(listener)
+        databinding.backward.setOnClickListener(listener)
+        databinding.left.setOnClickListener(listener)
+        databinding.right.setOnClickListener(listener)
+        databinding.stop.setOnClickListener(listener)
+    }
+
+    private fun initialViewModel() {
+        Log.d(TAG, "status changed ===>initialViewModel ")
+        viewModel = obtainViewModel()
+        viewModel.buttonStatusLiveData.observe(this, Observer {
+            if (null != it) {
+                Log.d(TAG, "status changed ===>${it.status} ")
+                if (it.status == 200) {
+                    databinding.forward?.isEnabled = true
+                    databinding.backward?.isEnabled = true
+                    databinding.left?.isEnabled = true
+                    databinding.right?.isEnabled = true
+                    databinding.stop?.isEnabled = true
+                } else {
+                    databinding.forward?.isEnabled = false
+                    databinding.backward?.isEnabled = false
+                    databinding.left?.isEnabled = false
+                    databinding.right?.isEnabled = false
+                    databinding.stop?.isEnabled = false
+                }
+            }else
+            {
+                Log.d(TAG, "status changed ===>null value ")
+            }
+        })
     }
 
 
@@ -91,4 +118,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun obtainViewModel(): MainActivityViewModel {
+        return ViewModelProviders.of(this).get(MainActivityViewModel::class.java) as MainActivityViewModel
+    }
+
+    companion object {
+        val TAG = MainActivity::class.java.simpleName
+    }
 }

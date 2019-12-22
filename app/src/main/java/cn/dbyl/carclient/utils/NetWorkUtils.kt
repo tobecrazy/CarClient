@@ -17,7 +17,6 @@ object NetWorkUtils {
      * @return
      */
     fun checkEnable(paramContext: Context): Boolean {
-        val i = false
         val localNetworkInfo = (paramContext
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
         return localNetworkInfo != null && localNetworkInfo.isAvailable
