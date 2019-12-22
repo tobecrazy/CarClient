@@ -10,7 +10,6 @@ import retrofit2.Call
 class CarControlRepository {
     suspend fun getNetworkStatus(): Boolean {
         var service=CoreNetwork.getInstance().fetchProvinceList()
-        var data:Call<DataModel>? = service.getUser()
         return false
     }
 }

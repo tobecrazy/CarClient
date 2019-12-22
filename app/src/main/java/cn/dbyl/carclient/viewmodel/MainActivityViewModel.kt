@@ -30,8 +30,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
             buttonStatusLiveData.postValue(null)
             Log.d(TAG, "MainActivityViewModel status changed ===>null ")
         }
-        isNetworkEnable.postValue(NetWorkUtils.checkEnable(getApplication()))
-        repo.getNetworkStatus()
     }
 
     companion object {
