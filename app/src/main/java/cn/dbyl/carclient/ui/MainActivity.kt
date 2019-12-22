@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import cn.dbyl.carclient.R
+import cn.dbyl.carclient.data.Constant
 import cn.dbyl.carclient.databinding.ActivityMainBinding
 import cn.dbyl.carclient.service.CarRemoteService
 import cn.dbyl.carclient.viewmodel.MainActivityViewModel
@@ -35,20 +36,20 @@ class MainActivity : AppCompatActivity() {
         val listener = OnClickListener {
             when (it.id) {
                 databinding.forward.id -> {
-                    parameters["direction"] = "Forward"
+                    parameters[Constant.DIRECTION] = "Forward"
                 }
                 databinding.backward.id -> {
-                    parameters["direction"] = "Backward"
+                    parameters[Constant.DIRECTION] = "Backward"
                 }
                 databinding.right?.id -> {
-                    parameters["direction"] = "Right"
+                    parameters[Constant.DIRECTION] = "Right"
                 }
                 databinding.left.id -> {
-                    parameters["direction"] = "Left"
+                    parameters[Constant.DIRECTION] = "Left"
 
                 }
                 databinding.stop.id -> {
-                    parameters["direction"] = "Stop"
+                    parameters[Constant.DIRECTION] = "Stop"
                 }
             }
             viewModel.initialViewModel(parameters)
@@ -66,24 +67,10 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "status changed ===>initialViewModel ")
         viewModel = obtainViewModel()
         viewModel.buttonStatusLiveData.observe(this, Observer {
-            if (null != it) {
-                Log.d(TAG, "status changed ===>${it.status} ")
-                if (it.status == 200) {
-                    databinding.forward?.isEnabled = true
-                    databinding.backward?.isEnabled = true
-                    databinding.left?.isEnabled = true
-                    databinding.right?.isEnabled = true
-                    databinding.stop?.isEnabled = true
-                } else {
-                    databinding.forward?.isEnabled = false
-                    databinding.backward?.isEnabled = false
-                    databinding.left?.isEnabled = false
-                    databinding.right?.isEnabled = false
-                    databinding.stop?.isEnabled = false
-                }
-            }else
-            {
-                Log.d(TAG, "status changed ===>null value ")
+            if (null != it && it.status == 200) {
+                updateUI(true)
+            } else {
+                updateUI(false)
             }
         })
     }
@@ -124,5 +111,13 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val TAG = MainActivity::class.java.simpleName
+    }
+
+    fun updateUI(isEnable: Boolean) {
+        databinding.forward?.isEnabled = isEnable
+        databinding.backward?.isEnabled = isEnable
+        databinding.left?.isEnabled = isEnable
+        databinding.right?.isEnabled = isEnable
+        databinding.stop?.isEnabled = isEnable
     }
 }

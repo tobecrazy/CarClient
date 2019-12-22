@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import cn.dbyl.carclient.utils.HttpUtils
 import cn.dbyl.model.DataModel
+import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.CountDownLatch
 
@@ -11,8 +12,8 @@ import java.util.concurrent.CountDownLatch
  * Create by i321533 (young.liu@sap.com) on 12/20/2019
  **/
 class GetNetworkStatus {
-    var liveData: MutableLiveData<DataModel>? = MutableLiveData<DataModel>()
     lateinit var countDownLatch: CountDownLatch
+
     companion object {
         val TAG = GetNetworkStatus::class.java.simpleName
     }
@@ -20,29 +21,31 @@ class GetNetworkStatus {
     fun getNetworkStatus(
         url: String,
         parameters: HashMap<String, String>
-    ): MutableLiveData<DataModel> {
+    ): DataModel?{
         var dataModel: DataModel? = DataModel()
         countDownLatch = CountDownLatch(1)
-        var thread: Thread =
-            Thread(Runnable {
-                var data = HttpUtils.instance?.postRequest(url, parameters, "", null)
-                liveData?.postValue(data?.value)
-            })
+//        var thread: Thread =
+//            Thread(Runnable {
+//                var data = HttpUtils.instance?.postRequest(url, parameters, "", null)
+//                liveData?.postValue(data?.value)
+//            })
         try {
-            thread.start()
+//            thread.start()
 //            countDownLatch.countDown()
-            Log.d(TAG, " dataModel is ==>${dataModel.toString()} ")
-            liveData?.postValue(dataModel)
+            GlobalScope.launch(Dispatchers.Default) {
+                async(Dispatchers.IO) {
+                    dataModel = HttpUtils.instance?.postRequest(url, parameters, "", null)
+                }.await()
+            }
+
         } catch (e: Exception) {
             dataModel?.status = 500
             dataModel?.message = "Server internal error"
             dataModel?.result = "Server internal error"
             Log.e(TAG, "error ==  ")
-            liveData?.postValue(dataModel)
         }
-        Log.d(TAG, " dataModel is ==>${dataModel.toString()} ")
-        Log.d(TAG, "final data is ==>${liveData?.value.toString()} ")
-        return liveData!!
+        Log.d(TAG, "final data is ==>${dataModel.toString()} ")
+        return dataModel
     }
 
 

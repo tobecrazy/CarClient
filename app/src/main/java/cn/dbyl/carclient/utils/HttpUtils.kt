@@ -87,7 +87,7 @@ private constructor() {
         parameters: HashMap<String, String>,
         body: String,
         credential: String?
-    ): MutableLiveData<DataModel> {
+    ): DataModel {
         val builder = Headers.Builder()
         builder.add("Content-Type", "application/json;charset=gb2312")
         if (null != credential) {
@@ -266,7 +266,7 @@ private constructor() {
         parameters: HashMap<String, String>,
         body: String,
         headers: Headers?
-    ): MutableLiveData<DataModel> {
+    ): DataModel {
         val builder = Request.Builder()
         val dataModel = DataModel()
         val requestUrl = getRequestUrl(url, parameters)
@@ -297,7 +297,7 @@ private constructor() {
         }
         Log.i(TAG, "Post dataModel===> $dataModel")
         resource.postValue(dataModel)
-        return resource
+        return dataModel
     }
 
     /**
