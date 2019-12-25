@@ -1,6 +1,9 @@
 package cn.dbyl.carclient.network
 
+import cn.dbyl.carclient.data.Constant.PORT
 import cn.dbyl.carclient.data.Constant.URL
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,6 +19,7 @@ object ServiceCreator {
         .connectTimeout(30000, TimeUnit.MILLISECONDS)
         .readTimeout(30000, TimeUnit.MILLISECONDS)
         .writeTimeout(30000, TimeUnit.MILLISECONDS)
+
 
     private var retrofit = Retrofit.Builder()
         .addConverterFactory(ScalarsConverterFactory.create())

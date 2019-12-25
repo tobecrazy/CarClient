@@ -7,7 +7,7 @@ import retrofit2.http.*
  * Create by Young on 12/21/2019
  **/
 interface RemoteControlService {
-    @GET("/")
+    @POST("/")
     fun getServerStatus(@Query("direction") direction:String): Call<String>
-
+    
 }

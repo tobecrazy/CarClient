@@ -1,6 +1,7 @@
 package cn.dbyl.carclient.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import cn.dbyl.carclient.data.CarControlRepository
@@ -29,13 +30,16 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
             buttonStatusLiveData.postValue(null)
             var dataModel: DataModel = DataModel()
             thread {
+                Log.d(TAG,"Get data request!")
                 try {
                     var res = call.execute()
                     dataModel.status = res.code()
                     dataModel.result = res.message()
                     dataModel.message = res.body()
                     buttonStatusLiveData.postValue(dataModel)
+                    Log.d(TAG,"Request success ${res.message()}")
                 } catch (e: Exception) {
+                    Log.d(TAG,"Failed to get data ${e.message}")
                     buttonStatusLiveData.postValue(dataModel)
                 }
             }

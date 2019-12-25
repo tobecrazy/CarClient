@@ -5,5 +5,6 @@ package cn.dbyl.carclient.data
  **/
 object Constant {
     val URL = "http://192.168.43.182:8972"
-    val DIRECTION="direction"
+    var PORT = 8972
+    val DIRECTION = "direction"
 }
