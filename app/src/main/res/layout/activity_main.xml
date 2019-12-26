@@ -6,19 +6,20 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".ui.MainActivity">
 
         <FrameLayout
-            android:id="@+id/frame_layout"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
+            android:id="@+id/car_control_layout"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_below="@+id/video"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:visibility="visible">
 
             <Button
@@ -57,9 +58,20 @@
                 android:text="@string/stop" />
         </FrameLayout>
 
+
         <FrameLayout
             android:id="@+id/video"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="500dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp">
+
+            <SurfaceView
+                android:id="@+id/surfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </RelativeLayout>
 </layout>
