@@ -7,4 +7,5 @@
     <string name="stop">停止</string>
     <string name="menu_title">设置</string>
     <string name="menu_connect">联网</string>
+    <string name="menu_open_cv">OpenCV</string>
 </resources>

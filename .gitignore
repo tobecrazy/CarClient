@@ -1,4 +1,5 @@
 *.iml
+/sdk/*
 .idea/*
 /.idea/*
 .gradle
@@ -11,3 +12,4 @@
 /build
 /captures
 .externalNativeBuild
+sdk/.cxx/*

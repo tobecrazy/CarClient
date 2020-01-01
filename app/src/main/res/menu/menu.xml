@@ -6,4 +6,8 @@
     <item
         android:id="@+id/connect"
         android:title="@string/menu_connect" />
+
+    <item
+        android:id="@+id/open_cv"
+        android:title="@string/menu_open_cv" />
 </menu>

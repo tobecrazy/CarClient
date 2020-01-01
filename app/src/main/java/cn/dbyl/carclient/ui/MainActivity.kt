@@ -85,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.setting -> ""
             R.id.connect -> ""
+            R.id.open_cv -> {
+                val opencv = Intent(this,OpenCVActivity::class.java)
+                opencv.putExtra("TAG","TAG")
+                startActivity(opencv)
+            }
 
         }
         return super.onOptionsItemSelected(item)
