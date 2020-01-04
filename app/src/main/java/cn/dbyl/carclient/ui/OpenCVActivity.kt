@@ -2,11 +2,10 @@ package cn.dbyl.carclient.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import androidx.databinding.DataBindingUtil
 import cn.dbyl.carclient.R
+import cn.dbyl.carclient.databinding.ActivityOpenCvBinding
 import org.opencv.android.*
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame
 import org.opencv.core.*
@@ -14,19 +13,20 @@ import org.opencv.imgproc.Imgproc
 import java.util.*
 
 
-class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListener2 {
+class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListener2,
+    View.OnClickListener {
 
-    private val TAG = "OCVSample::Activity"
+    private val TAG = OpenCVActivity::class.java.simpleName
 
     companion object {
-        val VIEW_MODE_RGBA = 0
-        val VIEW_MODE_HIST = 1
-        val VIEW_MODE_CANNY = 2
-        val VIEW_MODE_SEPIA = 3
-        val VIEW_MODE_SOBEL = 4
-        val VIEW_MODE_ZOOM = 5
-        val VIEW_MODE_PIXELIZE = 6
-        val VIEW_MODE_POSTERIZE = 7
+        const val VIEW_MODE_RGBA = 0
+        const val VIEW_MODE_HIST = 1
+        const val VIEW_MODE_CANNY = 2
+        const val VIEW_MODE_SEPIA = 3
+        const val VIEW_MODE_SOBEL = 4
+        const val VIEW_MODE_ZOOM = 5
+        const val VIEW_MODE_PIXELIZE = 6
+        const val VIEW_MODE_POSTERIZE = 7
     }
 
     private var mItemPreviewRGBA: MenuItem? = null
@@ -54,6 +54,7 @@ class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListen
     private lateinit var mP2: Point
     private lateinit var mBuff: FloatArray
     private var mSepiaKernel: Mat? = null
+    private lateinit var binding: ActivityOpenCvBinding
 
     var viewMode = VIEW_MODE_RGBA
 
@@ -80,9 +81,8 @@ class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListen
         Log.i(TAG, "called onCreate")
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setContentView(R.layout.activity_open_cv)
-        mOpenCvCameraView =
-            findViewById<View>(R.id.image_manipulations_activity_surface_view) as CameraBridgeViewBase
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_open_cv)
+        mOpenCvCameraView = binding.imageManipulationsActivitySurfaceView
         mOpenCvCameraView!!.visibility = CameraBridgeViewBase.VISIBLE
         mOpenCvCameraView!!.setCvCameraViewListener(this)
     }
@@ -96,7 +96,7 @@ class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListen
         super.onResume()
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization")
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback)
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback)
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!")
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
@@ -126,6 +126,37 @@ class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListen
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i(TAG, "called onOptionsItemSelected; selected item: $item")
+        if (item === mItemPreviewRGBA) viewMode = VIEW_MODE_RGBA
+        if (item === mItemPreviewHist) viewMode =
+            VIEW_MODE_HIST else if (item === mItemPreviewCanny) viewMode =
+            VIEW_MODE_CANNY else if (item === mItemPreviewSepia) viewMode =
+            VIEW_MODE_SEPIA else if (item === mItemPreviewSobel) viewMode =
+            VIEW_MODE_SOBEL else if (item === mItemPreviewZoom) viewMode =
+            VIEW_MODE_ZOOM else if (item === mItemPreviewPixelize) viewMode =
+            VIEW_MODE_PIXELIZE else if (item === mItemPreviewPosterize) viewMode =
+            VIEW_MODE_POSTERIZE
+        return true
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        Log.i(TAG, "called onCreateContextMenu")
+        mItemPreviewRGBA = menu?.add("Preview RGBA")
+        mItemPreviewHist = menu?.add("Histograms")
+        mItemPreviewCanny = menu?.add("Canny")
+        mItemPreviewSepia = menu?.add("Sepia")
+        mItemPreviewSobel = menu?.add("Sobel")
+        mItemPreviewZoom = menu?.add("Zoom")
+        mItemPreviewPixelize = menu?.add("Pixelize")
+        mItemPreviewPosterize = menu?.add("Posterize")
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
         Log.i(TAG, "called onOptionsItemSelected; selected item: $item")
         if (item === mItemPreviewRGBA) viewMode = VIEW_MODE_RGBA
         if (item === mItemPreviewHist) viewMode =
@@ -366,5 +397,10 @@ class OpenCVActivity : CameraActivity(), CameraBridgeViewBase.CvCameraViewListen
             }
         }
         return rgba
+    }
+
+    override fun onClick(v: View?) {
+        registerForContextMenu(v)
+        openContextMenu(v)
     }
 }

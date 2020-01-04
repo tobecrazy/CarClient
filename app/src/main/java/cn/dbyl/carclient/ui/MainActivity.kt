@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 databinding.backward.id -> {
                     parameters[Constant.DIRECTION] = "Backward"
                 }
-                databinding.right?.id -> {
+                databinding.right.id -> {
                     parameters[Constant.DIRECTION] = "Right"
                 }
                 databinding.left.id -> {
