@@ -25,8 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name=".ClientApp"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.OpenCVActivity"></activity>
+        <activity android:name=".ui.OpenCVActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

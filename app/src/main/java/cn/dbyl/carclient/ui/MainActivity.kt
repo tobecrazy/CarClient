@@ -1,15 +1,18 @@
 package cn.dbyl.carclient.ui
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.View.OnClickListener
 import android.view.WindowManager
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +21,7 @@ import cn.dbyl.carclient.data.Constant
 import cn.dbyl.carclient.databinding.ActivityMainBinding
 import cn.dbyl.carclient.service.CarRemoteService
 import cn.dbyl.carclient.viewmodel.MainActivityViewModel
-import java.util.HashMap
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -83,11 +86,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.setting -> ""
-            R.id.connect -> ""
+            R.id.setting -> setConnectionInfo()
+            R.id.connect -> wifiSetting()
             R.id.open_cv -> {
-                val opencv = Intent(this,OpenCVActivity::class.java)
-                opencv.putExtra("TAG","TAG")
+                val opencv = Intent(this, OpenCVActivity::class.java)
+                opencv.putExtra("TAG", "TAG")
                 startActivity(opencv)
             }
 
@@ -124,5 +127,31 @@ class MainActivity : AppCompatActivity() {
         databinding.left?.isEnabled = isEnable
         databinding.right?.isEnabled = isEnable
         databinding.stop?.isEnabled = isEnable
+    }
+
+    private fun wifiSetting() {
+        val intent = Intent()
+        intent.action = "android.net.wifi.PICK_WIFI_NETWORK"
+        startActivity(intent)
+    }
+
+    private fun setConnectionInfo() {
+        val view: View = layoutInflater.inflate(R.layout.setting_dialog_layout, null)
+        val setIpEditText = view.findViewById<EditText>(R.id.set_ip_address)
+        val setPortEditText = view.findViewById<EditText>(R.id.set_port)
+        val builder = AlertDialog.Builder(this)
+            .setView(view)
+            .setTitle(R.string.menu_title)
+            .setIcon(R.drawable.ic_launcher_background)
+            .setPositiveButton(R.string.confirm
+            ) { _, which ->
+                run {
+                    Log.d(TAG, "===>which $which  ${setIpEditText.text} + ${setPortEditText.text}")
+                    //TODO save to viewModel
+                }
+            }
+            .setNegativeButton(R.string.cancel
+            ) { _, which -> Log.d(TAG, "===>which $which  Cancel ") }
+        builder.create().show()
     }
 }

@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/set_ip_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/set_ip"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <EditText
+        android:paddingTop="5dp"
+        android:id="@+id/set_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/set_port"
+        android:importantForAutofill="no"
+        android:inputType="number" />
+</LinearLayout>

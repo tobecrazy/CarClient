@@ -1,3 +1,4 @@
+/app/objectbox-models/*
 *.iml
 /sdk/*
 .idea/*

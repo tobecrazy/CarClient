@@ -8,8 +8,11 @@ import cn.dbyl.carclient.data.CarControlRepository
 import cn.dbyl.carclient.data.Constant
 import cn.dbyl.carclient.data.Constant.DIRECTION
 import cn.dbyl.carclient.data.SingleLiveEvent
+import cn.dbyl.carclient.database.DataManager
+import cn.dbyl.carclient.database.NetworkInfo
 
 import cn.dbyl.model.DataModel
+import io.objectbox.Box
 import java.lang.Exception
 import java.util.HashMap
 import kotlin.concurrent.thread
@@ -28,6 +31,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var isRightEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
     var isStopEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
     var isTakePictureEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+
+    var networkInfoEntityBox: Box<NetworkInfo>? = null
     var repo = CarControlRepository()
 
     fun initialViewModel(parameters: HashMap<String, String>) {
@@ -62,5 +67,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     companion object {
         val TAG = MainActivityViewModel::class.java.simpleName
+    }
+
+    init {
+        networkInfoEntityBox = DataManager().getInstance()?.networkInfoEntityBox
+
     }
 }
