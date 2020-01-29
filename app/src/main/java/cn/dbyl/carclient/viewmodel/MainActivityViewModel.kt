@@ -5,11 +5,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import cn.dbyl.carclient.data.CarControlRepository
-import cn.dbyl.carclient.data.Constant
 import cn.dbyl.carclient.data.Constant.DIRECTION
+import cn.dbyl.carclient.data.IpMap
 import cn.dbyl.carclient.data.SingleLiveEvent
 import cn.dbyl.carclient.database.DataManager
 import cn.dbyl.carclient.database.NetworkInfo
+import cn.dbyl.carclient.utils.SharedPreferencesUtils
 
 import cn.dbyl.model.DataModel
 import io.objectbox.Box
@@ -31,6 +32,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var isRightEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
     var isStopEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
     var isTakePictureEnable: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+    var ipMapEvent: SingleLiveEvent<IpMap> = SingleLiveEvent<IpMap>()
 
     var networkInfoEntityBox: Box<NetworkInfo>? = null
     var repo = CarControlRepository()
@@ -71,6 +73,15 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     init {
         networkInfoEntityBox = DataManager().getInstance()?.networkInfoEntityBox
-
     }
+
+    fun resetIp() {
+        ipMapEvent.call()
+    }
+
+    fun saveIpInfo(ipMap: IpMap) {
+        ipMapEvent.postValue(ipMap)
+        SharedPreferencesUtils(getApplication()).getInstance().saveIpInfo(ipMap)
+    }
+
 }

@@ -1,6 +1,5 @@
 package cn.dbyl.carclient.data
 
-import android.util.Log
 import cn.dbyl.carclient.network.RemoteControlService
 import cn.dbyl.carclient.network.ServiceCreator
 

@@ -1,5 +1,6 @@
 package cn.dbyl.carclient.ui
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -12,14 +13,17 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import cn.dbyl.carclient.R
 import cn.dbyl.carclient.data.Constant
+import cn.dbyl.carclient.data.IpMap
 import cn.dbyl.carclient.databinding.ActivityMainBinding
 import cn.dbyl.carclient.service.CarRemoteService
+import cn.dbyl.carclient.utils.SharedPreferencesUtils
 import cn.dbyl.carclient.viewmodel.MainActivityViewModel
 import java.util.*
 
@@ -74,6 +78,12 @@ class MainActivity : AppCompatActivity() {
                 updateUI(true)
             } else {
                 updateUI(false)
+            }
+        })
+
+        viewModel.ipMapEvent.observe(this, Observer {
+            if (null != it) {
+                it.ip
             }
         })
     }
@@ -135,23 +145,36 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    @SuppressLint("InflateParams")
     private fun setConnectionInfo() {
         val view: View = layoutInflater.inflate(R.layout.setting_dialog_layout, null)
         val setIpEditText = view.findViewById<EditText>(R.id.set_ip_address)
+        setIpEditText.setText(SharedPreferencesUtils(this).getInstance().getIpInfo().ip)
         val setPortEditText = view.findViewById<EditText>(R.id.set_port)
+        setPortEditText.setText(SharedPreferencesUtils(this).getInstance().getIpInfo().port.toString())
         val builder = AlertDialog.Builder(this)
             .setView(view)
             .setTitle(R.string.menu_title)
             .setIcon(R.drawable.ic_launcher_background)
-            .setPositiveButton(R.string.confirm
+            .setPositiveButton(
+                R.string.confirm
             ) { _, which ->
                 run {
                     Log.d(TAG, "===>which $which  ${setIpEditText.text} + ${setPortEditText.text}")
-                    //TODO save to viewModel
+                    val ipMap = IpMap("", 1)
+                    ipMap.ip = setIpEditText.text.toString()
+                    ipMap.port = setPortEditText.text.toString().toInt()
+                    viewModel.saveIpInfo(ipMap)
+                    showMessage("Save successful")
                 }
             }
-            .setNegativeButton(R.string.cancel
+            .setNegativeButton(
+                R.string.cancel
             ) { _, which -> Log.d(TAG, "===>which $which  Cancel ") }
         builder.create().show()
+    }
+
+    private fun showMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
 }
