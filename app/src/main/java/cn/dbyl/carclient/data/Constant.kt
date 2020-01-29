@@ -10,4 +10,5 @@ object Constant {
     val IP = "IP"
     var MPORT = "PORT"
     val DATA = "data"
+    val BLUETOOTH=0x001
 }

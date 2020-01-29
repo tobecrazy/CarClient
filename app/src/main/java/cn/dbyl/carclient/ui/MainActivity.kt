@@ -99,13 +99,26 @@ class MainActivity : AppCompatActivity() {
             R.id.setting -> setConnectionInfo()
             R.id.connect -> wifiSetting()
             R.id.open_cv -> {
-                val opencv = Intent(this, OpenCVActivity::class.java)
-                opencv.putExtra("TAG", "TAG")
-                startActivity(opencv)
+                startOpenCVActivity()
+            }
+
+            R.id.blue_tooth_setting -> {
+                startBlueToothSettingActivity()
             }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun startBlueToothSettingActivity() {
+        val blueToothSettingIntent = Intent(this, BlueToothSettingsActivity::class.java)
+        startActivityForResult(blueToothSettingIntent, Constant.BLUETOOTH)
+    }
+
+    private fun startOpenCVActivity() {
+        val opencv = Intent(this, OpenCVActivity::class.java)
+        opencv.putExtra("TAG", "TAG")
+        startActivity(opencv)
     }
 
     private fun getScreenWidth(): Int {
