@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">CarClient</string>
-    <string name="forward">前进</string>
-    <string name="backward">后退</string>
-    <string name="left">向左</string>
-    <string name="right">向右</string>
-    <string name="stop">停止</string>
-    <string name="menu_title">设置</string>
-    <string name="menu_connect">联网</string>
+    <string name="forward">Forward</string>
+    <string name="backward">Backward</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="stop">Stop</string>
+    <string name="menu_title">Settings</string>
+    <string name="menu_connect">Internet</string>
     <string name="menu_open_cv">OpenCV</string>
-    <string name="set_ip">设置IP地址</string>
-    <string name="set_port">设置端口</string>
-    <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="set_ip">IP setting</string>
+    <string name="set_port">Port setting</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
     <string name="title_activity_blue_tooth_settings">BlueTooth Settings</string>
-    <string name="set_blue_tooth">设置蓝牙</string>
-    <string name="scan">蓝牙扫描</string>
-    <string name="connect">连接蓝牙设备</string>
+    <string name="set_blue_tooth">BlueTooth setting</string>
+    <string name="scan">BlueTooth scan</string>
+    <string name="connect">BlueTooth connection</string>
 </resources>

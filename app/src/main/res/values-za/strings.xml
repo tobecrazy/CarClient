@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CarClient</string>
+    <string name="forward">前进</string>
+    <string name="backward">后退</string>
+    <string name="left">向左</string>
+    <string name="right">向右</string>
+    <string name="stop">停止</string>
+    <string name="menu_title">设置</string>
+    <string name="menu_connect">联网</string>
+    <string name="menu_open_cv">OpenCV</string>
+    <string name="set_ip">设置IP地址</string>
+    <string name="set_port">设置端口</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="title_activity_blue_tooth_settings">BlueTooth Settings</string>
+    <string name="set_blue_tooth">设置蓝牙</string>
+    <string name="scan">蓝牙扫描</string>
+    <string name="connect">连接蓝牙设备</string>
+</resources>

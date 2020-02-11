@@ -27,12 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center_horizontal"
+                android:contentDescription="@string/forward"
                 android:text="@string/forward" />
 
             <Button
                 android:id="@+id/backward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:layout_gravity="bottom|center_horizontal"
                 android:text="@string/backward" />
 
@@ -41,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:contentDescription="@string/backward"
                 android:text="@string/left" />
 
             <Button
@@ -48,10 +51,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
+                android:contentDescription="@string/right"
                 android:text="@string/right" />
 
             <Button
                 android:id="@+id/stop"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
