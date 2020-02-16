@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/car_control_layout"
             android:layout_width="400dp"
             android:layout_height="400dp"
@@ -26,43 +26,69 @@
                 android:id="@+id/forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:contentDescription="@string/forward"
                 android:text="@string/forward" />
+
+            <RelativeLayout
+                android:id="@+id/layout_button_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:contentDescription="@string/left"
+                    android:text="@string/left"
+                    tools:ignore="ButtonStyle" />
+
+
+                <Button
+                    android:id="@+id/stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:text="@string/stop"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:contentDescription="@string/right"
+                    android:text="@string/right"
+                    tools:ignore="ButtonStyle" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/backward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="bottom|center_horizontal"
-                android:text="@string/backward" />
-
-            <Button
-                android:id="@+id/left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:contentDescription="@string/backward"
-                android:text="@string/left" />
-
-            <Button
-                android:id="@+id/right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:contentDescription="@string/right"
-                android:text="@string/right" />
-
-            <Button
-                android:id="@+id/stop"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/stop" />
-        </FrameLayout>
+                android:focusable="true"
+                android:text="@string/backward" />
+
+        </RelativeLayout>
 
 
         <FrameLayout
@@ -71,13 +97,14 @@
             android:layout_height="350dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp">
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp">
 
             <SurfaceView
                 android:id="@+id/surfaceView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:contentDescription="@null" />
         </FrameLayout>
     </RelativeLayout>
 </layout>

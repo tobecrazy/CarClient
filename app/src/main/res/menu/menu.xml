@@ -2,16 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/setting"
+        android:contentDescription="@null"
         android:title="@string/menu_title" />
     <item
         android:id="@+id/connect"
+        android:contentDescription="@null"
         android:title="@string/menu_connect" />
 
     <item
         android:id="@+id/open_cv"
+        android:contentDescription="@null"
         android:title="@string/menu_open_cv" />
 
     <item
         android:id="@+id/blue_tooth_setting"
-        android:title="@string/set_blue_tooth"/>
+        android:contentDescription="@null"
+        android:title="@string/set_blue_tooth" />
 </menu>
