@@ -1,10 +1,12 @@
 package cn.dbyl.carclient.network
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import cn.dbyl.carclient.utils.HttpUtils
 import cn.dbyl.model.DataModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.CountDownLatch
 
@@ -33,9 +35,9 @@ class GetNetworkStatus {
 //            thread.start()
 //            countDownLatch.countDown()
             GlobalScope.launch(Dispatchers.Default) {
-                async(Dispatchers.IO) {
+                withContext(Dispatchers.IO) {
                     dataModel = HttpUtils.instance?.postRequest(url, parameters, "", null)
-                }.await()
+                }
             }
 
         } catch (e: Exception) {
