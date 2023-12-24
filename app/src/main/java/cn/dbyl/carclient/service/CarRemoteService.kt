@@ -29,6 +29,6 @@ class CarRemoteService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "服务已经停止", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Service was stopped!", Toast.LENGTH_LONG).show()
     }
 }

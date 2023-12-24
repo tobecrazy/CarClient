@@ -18,7 +18,7 @@ import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    val url = "http://192.168.43.182:8972/"
+    val url = "http://192.168.68.88:80/"
     lateinit var databinding: ActivityMainBinding
     private val parameters: HashMap<String, String> = HashMap<String, String>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +52,9 @@ class MainActivity : AppCompatActivity() {
                     parameters["direction"] = "Stop"
                 }
             }
-            var thread: Thread =
-                Thread(Runnable { HttpUtils.instance?.postRequest(url, parameters, "", null) })
+            var thread =
+                Thread { HttpUtils.getInstance()?.getRequest(url, parameters, "") }
             thread.start()
-
         }
 
         databinding.forward.setOnClickListener(listener)

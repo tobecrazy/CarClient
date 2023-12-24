@@ -19,18 +19,16 @@ import okhttp3.Response
 /**
  * @author Young
  */
-class HttpUtils
-/**
- * avoid to invoke this constructor
- */
-private constructor() {
-    internal val TAG = HttpUtils::class.java.simpleName
+class HttpUtils {
+    private val TAG = HttpUtils::class.java.simpleName
     private val resource = MutableLiveData<DataModel>()
-    private val client = OkHttpClient.Builder()
+    private var client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
         .writeTimeout(10, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
+
+    private val contentType = "Content-Type"
 
     /**
      * @param url
@@ -45,7 +43,7 @@ private constructor() {
         credential: String?
     ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
-        builder.add("Content-Type", "application/json;charset=gb2312")
+        builder.add(contentType, "application/json;charset=gb2312")
         if (null != credential) {
             builder.add("Authorization", credential)
         }
@@ -67,7 +65,7 @@ private constructor() {
         credential: String?
     ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
-        builder.add("Content-Type", "application/json;charset=gb2312")
+        builder.add(contentType, "application/json;charset=gb2312")
         if (null != credential) {
             builder.add("Authorization", credential)
         }
@@ -89,7 +87,7 @@ private constructor() {
         credential: String?
     ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
-        builder.add("Content-Type", "application/json;charset=gb2312")
+        builder.add(contentType, "application/json;charset=gb2312")
         if (null != credential) {
             builder.add("Authorization", credential)
         }
@@ -111,7 +109,7 @@ private constructor() {
         credential: String?
     ): MutableLiveData<DataModel> {
         val builder = Headers.Builder()
-        builder.add("Content-Type", "application/json;charset=gb2312")
+        builder.add(contentType, "application/json;charset=gb2312")
         if (null != credential) {
             builder.add("Authorization", credential)
         }
@@ -334,18 +332,15 @@ private constructor() {
          *
          * @return
          */
-        val instance: HttpUtils?
-            get() {
-                if (httpUtils == null) {
-                    synchronized(HttpUtils::class.java) {
-                        if (httpUtils == null) {
-                            httpUtils = HttpUtils()
-                        }
+        fun getInstance(): HttpUtils? {
+            if (httpUtils == null) {
+                synchronized(HttpUtils::class.java) {
+                    if (httpUtils == null) {
+                        httpUtils = HttpUtils()
                     }
                 }
-                return httpUtils
             }
+            return httpUtils
+        }
     }
-
-
 }
