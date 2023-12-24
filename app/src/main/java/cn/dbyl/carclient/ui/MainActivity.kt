@@ -24,7 +24,7 @@ import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    val url = "http://192.168.68.88:80/"
+    var url = "http://192.168.68.88:80/%s"
     lateinit var databinding: ActivityMainBinding
     lateinit var viewModel: MainActivityViewModel
     private val parameters: HashMap<String, String> = HashMap<String, String>()
@@ -36,32 +36,32 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent: Intent = Intent(this, CarRemoteService::class.java)
         serviceIntent.putExtra("Car", true)
         startService(serviceIntent)
-
+        var targetURL = ""
         val listener = OnClickListener {
             when (it.id) {
                 databinding.forward.id -> {
-                    parameters["direction"] = "Forward"
+                    targetURL = String.format(url, "Forward")
                 }
 
                 databinding.backward.id -> {
-                    parameters["direction"] = "Backward"
+                    targetURL = String.format(url, "Backward")
                 }
 
                 databinding.right.id -> {
-                    parameters["direction"] = "Right"
+                    targetURL = String.format(url, "Right")
                 }
 
                 databinding.left.id -> {
-                    parameters["direction"] = "Left"
+                    targetURL = String.format(url, "Left")
 
                 }
 
                 databinding.stop.id -> {
-                    parameters["direction"] = "Stop"
+                    targetURL = String.format(url, "Stop")
                 }
             }
             var thread =
-                Thread { HttpUtils.getInstance()?.getRequest(url, parameters, "") }
+                Thread { HttpUtils.getInstance()?.getRequest(targetURL, parameters, "") }
             thread.start()
         }
 

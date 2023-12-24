@@ -157,7 +157,7 @@ class HttpUtils {
             dataModel.message = null
             dataModel.result = null
         }
-        resource.value = dataModel
+        resource.postValue(dataModel)
         return resource
     }
 
