@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.MainActivity">
+
+        <TextView
+            android:id="@+id/server_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/initial_server_ip"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:id="@+id/frame_layout"
@@ -18,43 +32,53 @@
 
             <Button
                 android:id="@+id/forward"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center_horizontal"
                 android:enabled="false"
-                android:text="@string/forward" />
+                android:text="@string/forward"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/backward"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:enabled="false"
-                android:text="@string/backward" />
+                android:text="@string/backward"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/left"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:enabled="false"
-                android:text="@string/left" />
+                android:text="@string/left"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/right"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:enabled="false"
-                android:text="@string/right" />
+                android:text="@string/right"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/stop"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:enabled="false"
-                android:text="@string/stop" />
+                android:text="@string/stop"
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout

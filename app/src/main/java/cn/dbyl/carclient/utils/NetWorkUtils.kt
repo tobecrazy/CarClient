@@ -3,6 +3,7 @@ package cn.dbyl.carclient.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import java.util.regex.Pattern
 
 
 /**
@@ -54,5 +55,21 @@ object NetWorkUtils {
         } catch (ex: Exception) {
             " Unable to get IP , please try again" + ex.message
         }
+    }
+
+    /**
+     *
+     * @param ipAddress String?
+     * @return Boolean
+     */
+    fun isValidIPv4Address(ipAddress: String?): Boolean {
+        if (ipAddress.isNullOrEmpty()) {
+            return false
+        }
+        val pattern = Pattern.compile(
+            "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})"
+        )
+        val matcher = pattern.matcher(ipAddress)
+        return matcher.matches() && ipAddress.split(".").all { it.toInt() in 1..255 }
     }
 }

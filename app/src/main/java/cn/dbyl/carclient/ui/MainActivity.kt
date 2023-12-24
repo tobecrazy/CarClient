@@ -24,7 +24,7 @@ import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    var url = "http://192.168.68.88:80/%s"
+    var url = "http://%s/%s"
     lateinit var databinding: ActivityMainBinding
     lateinit var viewModel: MainActivityViewModel
     private val parameters: HashMap<String, String> = HashMap<String, String>()
@@ -40,27 +40,27 @@ class MainActivity : AppCompatActivity() {
         val listener = OnClickListener {
             when (it.id) {
                 databinding.forward.id -> {
-                    targetURL = String.format(url, "Forward")
+                    targetURL = String.format(url, viewModel.serverIP.value, "Forward")
                 }
 
                 databinding.backward.id -> {
-                    targetURL = String.format(url, "Backward")
+                    targetURL = String.format(url, viewModel.serverIP.value, "Backward")
                 }
 
                 databinding.right.id -> {
-                    targetURL = String.format(url, "Right")
+                    targetURL = String.format(url, viewModel.serverIP.value, "Right")
                 }
 
                 databinding.left.id -> {
-                    targetURL = String.format(url, "Left")
+                    targetURL = String.format(url, viewModel.serverIP.value, "Left")
 
                 }
 
                 databinding.stop.id -> {
-                    targetURL = String.format(url, "Stop")
+                    targetURL = String.format(url, viewModel.serverIP.value, "Stop")
                 }
             }
-            var thread =
+            val thread =
                 Thread { HttpUtils.getInstance()?.getRequest(targetURL, parameters, "") }
             thread.start()
         }
@@ -71,6 +71,14 @@ class MainActivity : AppCompatActivity() {
             databinding.left.isEnabled = isEnabled == true
             databinding.right.isEnabled = isEnabled == true
             databinding.stop.isEnabled = isEnabled == true
+        })
+
+        viewModel.serverIP.observe(this, Observer {
+            if (it.isNotBlank()) {
+                databinding.serverIp.text = getString(R.string.server_ip, it)
+            } else {
+                databinding.serverIp.text = String.format(url, viewModel.defaultServerIP)
+            }
         })
 
         databinding.forward.setOnClickListener(listener)
@@ -118,10 +126,11 @@ class MainActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Constants.start_setting_request_code && null != data) {
-            Snackbar.make(window.decorView, "Server IP change to ", Snackbar.LENGTH_LONG).show()
-            viewModel.updateServerStatus(true)
+            val ip = data.getStringExtra(Constants.key_ip)
+            Snackbar.make(window.decorView, "Server IP change to $ip", Snackbar.LENGTH_LONG).show()
+            viewModel.updateServerStatus(true, ip)
         } else {
-            viewModel.updateServerStatus(true)
+            viewModel.updateServerStatus(true, null)
             Snackbar.make(window.decorView, "Not change server IP", Snackbar.LENGTH_LONG).show()
         }
         super.onActivityResult(requestCode, resultCode, data)

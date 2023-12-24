@@ -5,4 +5,5 @@ package cn.dbyl.carclient.data
  **/
 object Constants {
     const val start_setting_request_code = 0x123
+    const val key_ip = "key_ip"
 }
