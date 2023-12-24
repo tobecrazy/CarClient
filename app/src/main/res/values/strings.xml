@@ -6,5 +6,7 @@
     <string name="right">向右</string>
     <string name="stop">停止</string>
     <string name="menu_title">设置</string>
-    <string name="menu_connect">联网</string>
+    <string name="menu_about">关于</string>
+    <string name="input_hint">输入Server IP</string>
+    <string name="confirmed">确定</string>
 </resources>

@@ -28,6 +28,12 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="s">
         <activity
+            android:name=".ui.About"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ChangeServerIP"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -36,6 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".service.CarRemoteService" />
     </application>
 

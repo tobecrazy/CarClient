@@ -1,13 +1,15 @@
 package cn.dbyl.carclient
 
 import android.app.Application
+import android.widget.Toast
 import cn.dbyl.carclient.utils.NetWorkUtils
 import com.clj.fastble.BleManager
 import com.clj.fastble.scan.BleScanRuleConfig
+import com.google.android.material.snackbar.Snackbar
 
 
 /**
- * Create by i321533 (young.liu@sap.com) on 11/24/2019
+ * Create by Young  on 11/24/2019
  **/
 class ClientApp : Application() {
     override fun onCreate() {
@@ -30,7 +32,7 @@ class ClientApp : Application() {
         }
         val ip = NetWorkUtils.getLocalIpAddress(this)
         if (ip != null) {
-
+            //TODO
         }
     }
 
