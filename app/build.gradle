@@ -1,9 +1,16 @@
-apply plugin: 'com.android.application'
+plugins {
+    id("com.android.application")
+    id("kotlin-android") // Only for Kotlin projects.
+    id("kotlin-kapt") // Only for Kotlin projects.
+    id("io.objectbox") // Apply last.
+}
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-kapt'
-
+// Or using the old apply syntax:
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android" // Only for Kotlin projects.
+apply plugin: "kotlin-kapt" // Only for Kotlin projects.
+apply plugin: "io.objectbox" // Apply last.
+apply plugin: "kotlin-kapt"
 android {
     compileSdkVersion 34
     buildToolsVersion "34.0.0"
