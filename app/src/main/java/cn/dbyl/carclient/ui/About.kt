@@ -1,7 +1,7 @@
 package cn.dbyl.carclient.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import cn.dbyl.carclient.R
 
 class About : AppCompatActivity() {

@@ -1,11 +1,9 @@
 package cn.dbyl.carclient
 
 import android.app.Application
-import android.widget.Toast
 import cn.dbyl.carclient.utils.NetWorkUtils
 import com.clj.fastble.BleManager
 import com.clj.fastble.scan.BleScanRuleConfig
-import com.google.android.material.snackbar.Snackbar
 
 
 /**

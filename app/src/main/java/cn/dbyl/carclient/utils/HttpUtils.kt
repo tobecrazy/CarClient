@@ -4,17 +4,14 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import cn.dbyl.model.DataModel
-
-import java.io.IOException
-import java.util.HashMap
-import java.util.concurrent.TimeUnit
-
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Young
