@@ -25,8 +25,6 @@ class ClientApp : Application() {
                 .setScanTimeOut(10000)
                 .build()
             BleManager.getInstance().initScanRule(scanRuleConfig)
-
-
         }
         val ip = NetWorkUtils.getLocalIpAddress(this)
         if (ip != null) {
