@@ -1,15 +1,19 @@
 package cn.dbyl.carclient
 
 import android.app.Application
+import cn.dbyl.carclient.data.model.MyObjectBox
+import cn.dbyl.carclient.utils.DataManager
 import cn.dbyl.carclient.utils.NetWorkUtils
 import com.clj.fastble.BleManager
 import com.clj.fastble.scan.BleScanRuleConfig
+import io.objectbox.BoxStore
 
 
 /**
  * Create by Young  on 11/24/2019
  **/
 class ClientApp : Application() {
+
     override fun onCreate() {
         super.onCreate()
         //initial blue tooth

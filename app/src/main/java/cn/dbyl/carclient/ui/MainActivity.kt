@@ -15,6 +15,7 @@ import cn.dbyl.carclient.data.Constants
 import cn.dbyl.carclient.databinding.ActivityMainBinding
 import cn.dbyl.carclient.service.CarRemoteService
 import cn.dbyl.carclient.utils.HttpUtils
+import cn.dbyl.carclient.utils.NetWorkUtils
 import cn.dbyl.carclient.viewmodel.MainActivityViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = MainActivityViewModel(application)
+        viewModel.initialize(this)
+        val localDataIp = viewModel.localDataObjectBox.query().build().findFirst()?.ip
+        if (null != localDataIp && NetWorkUtils.isValidIPv4Address(localDataIp)) {
+            binding.serverIp.text = getString(R.string.server_ip, localDataIp)
+            viewModel.enableControlUI(true)
+        }
         val serviceIntent = Intent(this, CarRemoteService::class.java)
         serviceIntent.putExtra("Car", true)
         startService(serviceIntent)
@@ -75,7 +82,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.serverIP.observe(this) {
             if (it.isNotBlank()) {
-                binding.serverIp.text = getString(R.string.server_ip, it)
+                val isEmpty = viewModel.localDataObjectBox.isEmpty
+                if (isEmpty) {
+                    binding.serverIp.text = getString(R.string.initial_server_ip)
+                    return@observe
+                }
             } else {
                 binding.serverIp.text = String.format(url, viewModel.defaultServerIP)
             }
@@ -87,15 +98,17 @@ class MainActivity : AppCompatActivity() {
                     window.decorView,
                     "Failed to connect ${viewModel.serverIP.value}",
                     Snackbar.LENGTH_LONG
-                )
-                    .show()
+                ).show()
                 return@observe
             }
             when (it.status) {
                 200 -> {}
                 else -> {
-                    Snackbar.make(window.decorView, "Fail to get Response, get ${it.status}", Snackbar.LENGTH_LONG)
-                        .show()
+                    Snackbar.make(
+                        window.decorView,
+                        "Fail to get Response, get ${it.status}",
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
         }
